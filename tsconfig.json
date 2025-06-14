@@ -22,6 +22,7 @@
       "@Pages/*": ["app/Pages/*"],
       "@Layouts/*": ["app/Layout/*"],
       "@Constants/*": ["app/shared/constants/*"],
+      "@Services/*": ["app/shared/services/*"],
       "@Helpers/*": ["app/shared/helpers/*"],
       "@Components/*": ["app/Components/*"]
     }

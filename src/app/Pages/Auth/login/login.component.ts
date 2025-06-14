@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { NgIf } from '@angular/common';
 import { Lengths, Patterns, ValidationMessages } from '@Constants/index';
 import { AuthLayoutComponent } from '@Layouts/auth-layout/auth-layout.component';
+import { ToastserviceService } from '@Services/toastservice.service';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -30,6 +31,8 @@ import { AuthLayoutComponent } from '@Layouts/auth-layout/auth-layout.component'
 export class LoginComponent {
   validationMessages = ValidationMessages;
   hidePassword = true;
+
+  constructor(private toastService: ToastserviceService) {}
 
   loginForm = new FormGroup({
     email: new FormControl('sajshjn@gmail.com', [
@@ -50,6 +53,8 @@ export class LoginComponent {
   }
 
   onSubmit() {
+    this.toastService.successMessage('Login Successfully !');
+    this.toastService.errorMessage('Something went wrong !');
     if (this.loginForm.valid) {
       console.log(this.loginForm.value);
       // Submit the form data to your API here

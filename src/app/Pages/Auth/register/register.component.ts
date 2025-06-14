@@ -54,7 +54,7 @@ export class RegisterComponent {
         Validators.maxLength(Lengths.passwordMaxLength),
         Validators.minLength(Lengths.passwordMinLength),
       ]),
-      confirmPassword: new FormControl('Lajshjashj', [Validators.required]),
+      confirmPassword: new FormControl('Khan@1234', [Validators.required]),
     },
     // custom validator to match password and confirm password
     { validators: PasswordsMatchValidator }
@@ -65,6 +65,7 @@ export class RegisterComponent {
   }
 
   onSubmit() {
+    this.registerForm.markAllAsTouched();
     if (this.registerForm.valid) {
       console.log(this.registerForm.value);
       // Submit the form data to your API here
