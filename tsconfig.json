@@ -20,7 +20,9 @@
     "baseUrl": "src",
     "paths": {
       "@Pages/*": ["app/Pages/*"],
+      "@Layouts/*": ["app/Layout/*"],
       "@Constants/*": ["app/shared/constants/*"],
+      "@Helpers/*": ["app/shared/helpers/*"],
       "@Components/*": ["app/Components/*"]
     }
   },

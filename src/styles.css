@@ -1,4 +1,5 @@
 @import "tailwindcss";
+/* @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"); */
 
 @theme {
   --color-light: rgb(240, 240, 240);
@@ -12,7 +13,6 @@ body {
 body {
   margin: 0;
   background-color: var(--color-light);
-  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 .mdc-notched-outline__notch {
@@ -21,4 +21,9 @@ body {
 
 .card_shadow {
   box-shadow: 0px 0px 5px 0px rgb(231, 231, 231) !important;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 16px;
 }

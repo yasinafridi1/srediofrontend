@@ -1,0 +1,23 @@
+<div class="flex h-screen">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-gray-800 text-white p-4">
+        <h2 class="text-xl font-bold mb-4">Sidebar</h2>
+        <nav>
+            <a routerLink="/dashboard" class="block py-2 hover:bg-gray-700 rounded px-2">Dashboard</a>
+            <a routerLink="/profile" class="block py-2 hover:bg-gray-700 rounded px-2">Profile</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col bg-red-500">
+        <!-- Topbar -->
+        <header class="bg-white border-b shadow px-6 py-4">
+            <h1 class="text-lg font-semibold">Topbar</h1>
+        </header>
+
+        <!-- Router View -->
+        <main class="flex-1 p-6  overflow-auto">
+            <router-outlet></router-outlet>
+        </main>
+    </div>
+</div>

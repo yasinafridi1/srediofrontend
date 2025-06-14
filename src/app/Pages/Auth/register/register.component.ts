@@ -1,19 +1,19 @@
 import { Component } from '@angular/core';
 import {
-  FormBuilder,
   Validators,
   FormGroup,
   ReactiveFormsModule,
   FormControl,
 } from '@angular/forms';
-
-// Angular Material imports
+import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { NgIf } from '@angular/common';
 import { Lengths, Patterns, ValidationMessages } from '@Constants/index';
+import { PasswordsMatchValidator } from '@Helpers/CustomValidators';
+import { AuthLayoutComponent } from '@Layouts/auth-layout/auth-layout.component';
 
 @Component({
   selector: 'app-register',
@@ -25,38 +25,40 @@ import { Lengths, Patterns, ValidationMessages } from '@Constants/index';
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule,
+    MatIconModule,
     NgIf,
+    AuthLayoutComponent,
   ],
 })
 export class RegisterComponent {
   validationMessages = ValidationMessages;
+  hidePassword = true;
+  hideConfirmPassword = true;
 
-  registerForm = new FormGroup({
-    fullName: new FormControl('', [
-      Validators.required,
-      Validators.minLength(Lengths.fullNameMinLength),
-      Validators.maxLength(Lengths.fullNameMaxLength),
-      Validators.pattern(Patterns.alphabetsPattern),
-    ]),
-    email: new FormControl('', [
-      Validators.required,
-      Validators.pattern(Patterns.emailPattern),
-      Validators.maxLength(Lengths.emailMaxLength),
-    ]),
-    password: new FormControl('', [
-      Validators.required,
-      Validators.pattern(Patterns.passwordPattern),
-      Validators.maxLength(Lengths.passwordMaxLength),
-      Validators.minLength(Lengths.passwordMinLength),
-    ]),
-    confirmPassword: new FormControl('', [Validators.required]),
-  });
-  passwordMatchValidator(group: FormGroup) {
-    const pass = group.get('password')?.value;
-    const confirm = group.get('confirmPassword')?.value;
-    return pass === confirm ? null : { passwordMismatch: true };
-  }
+  registerForm = new FormGroup(
+    {
+      fullName: new FormControl('Helasamk', [
+        Validators.required,
+        Validators.minLength(Lengths.fullNameMinLength),
+        Validators.maxLength(Lengths.fullNameMaxLength),
+        Validators.pattern(Patterns.alphabetsPattern),
+      ]),
+      email: new FormControl('sajshjn@gmail.com', [
+        Validators.required,
+        Validators.pattern(Patterns.emailPattern),
+        Validators.maxLength(Lengths.emailMaxLength),
+      ]),
+      password: new FormControl('Khan@1234', [
+        Validators.required,
+        Validators.pattern(Patterns.passwordPattern),
+        Validators.maxLength(Lengths.passwordMaxLength),
+        Validators.minLength(Lengths.passwordMinLength),
+      ]),
+      confirmPassword: new FormControl('Lajshjashj', [Validators.required]),
+    },
+    // custom validator to match password and confirm password
+    { validators: PasswordsMatchValidator }
+  );
 
   get f() {
     return this.registerForm.controls;

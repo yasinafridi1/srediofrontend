@@ -1,1 +1,47 @@
-<p>login works!</p>
+<app-auth-layout title="Login - Sred.io" buttonText="Login" linkQuestion="Don't have account ?" linkText="Signup here"
+    linkUrl="/auth/signup" (onSubmit)="onSubmit()" [formGroup]="loginForm">
+    <mat-card-content class="mt-8 px-3">
+        <!-- Email -->
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" />
+            <mat-error *ngIf="f.email.touched && f.email.errors?.['required']">
+                Email is required
+            </mat-error>
+            <mat-error *ngIf="f.email.touched && f.email.errors?.['maxlength'] && !f.email.errors?.['pattern']">
+                {{validationMessages.emailMaxLengthError}}
+            </mat-error>
+            <mat-error *ngIf="f.email.touched && f.email.errors?.['pattern']">
+                {{validationMessages.email}}
+            </mat-error>
+        </mat-form-field>
+
+        <!-- Password -->
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Password</mat-label>
+            <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" />
+            <button type="button" mat-icon-button matSuffix (click)="hidePassword = !hidePassword"
+                [attr.aria-label]="'Toggle password visibility'" [attr.aria-pressed]="!hidePassword">
+                <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+
+            <mat-error *ngIf="f.password.touched && f.password.errors?.['required']">
+                Password is required
+            </mat-error>
+            <mat-error
+                *ngIf="f.password.touched && f.password.errors?.['minlength'] && !f.password.errors?.['pattern']">
+                {{ validationMessages.passwordMinLengthError }}
+            </mat-error>
+            <mat-error
+                *ngIf="f.password.touched && f.password.errors?.['maxlength'] && !f.password.errors?.['pattern']">
+                {{ validationMessages.passwordMaxLengthError }}
+            </mat-error>
+            <mat-error *ngIf="f.password.touched && f.password.errors?.['pattern']">
+                {{ validationMessages.passwordPatternError }}
+            </mat-error>
+        </mat-form-field>
+
+
+    </mat-card-content>
+
+</app-auth-layout>
