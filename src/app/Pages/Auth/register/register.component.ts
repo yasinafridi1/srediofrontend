@@ -11,9 +11,19 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { NgIf } from '@angular/common';
-import { Lengths, Patterns, ValidationMessages } from '@Constants/index';
+import {
+  API_URL,
+  Lengths,
+  Patterns,
+  ValidationMessages,
+} from '@Constants/index';
 import { PasswordsMatchValidator } from '@Helpers/CustomValidators';
 import { AuthLayoutComponent } from '@Layouts/auth-layout/auth-layout.component';
+import { ToastserviceService } from '@Services/toastservice.service';
+import { AsyncHandlerService } from '@Services/async-handler.service';
+import { LocalStorageService } from '@Services/local-storage.service';
+import { ApiService } from '@Services/api.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -34,16 +44,24 @@ export class RegisterComponent {
   validationMessages = ValidationMessages;
   hidePassword = true;
   hideConfirmPassword = true;
+  loading = false;
+  constructor(
+    private toastService: ToastserviceService,
+    private api: ApiService,
+    private asyncHandler: AsyncHandlerService,
+    private localStorage: LocalStorageService,
+    private router: Router
+  ) {}
 
   registerForm = new FormGroup(
     {
-      fullName: new FormControl('Helasamk', [
+      fullName: new FormControl('Khan Afridi', [
         Validators.required,
         Validators.minLength(Lengths.fullNameMinLength),
         Validators.maxLength(Lengths.fullNameMaxLength),
         Validators.pattern(Patterns.alphabetsPattern),
       ]),
-      email: new FormControl('sajshjn@gmail.com', [
+      email: new FormControl('khan@gmail.com', [
         Validators.required,
         Validators.pattern(Patterns.emailPattern),
         Validators.maxLength(Lengths.emailMaxLength),
@@ -67,8 +85,21 @@ export class RegisterComponent {
   onSubmit() {
     this.registerForm.markAllAsTouched();
     if (this.registerForm.valid) {
-      console.log(this.registerForm.value);
-      // Submit the form data to your API here
+      this.loading = true;
+      this.asyncHandler.handleObservable(
+        this.api.postData(API_URL.register, this.registerForm.value),
+        (response) => {
+          this.toastService.successMessage(
+            response?.message || 'Registration successful!'
+          );
+          setTimeout(() => {
+            this.router.navigate(['/auth/signin']);
+          }, 1500);
+        },
+        () => {
+          this.loading = false;
+        }
+      );
     }
   }
 }

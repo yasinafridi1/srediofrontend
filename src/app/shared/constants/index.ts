@@ -17,7 +17,7 @@ export const Patterns = {
   passwordPattern:
     /^(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*?&_()#])([a-zA-Z0-9@$!%*?&_()#])+$/,
   phoneNumberPattern: /^\+([0-9]{1,3})([0-9]{6,12})$/,
-  alphabetsPattern: /^[A-Za-z]+$/,
+  alphabetsPattern: /^[A-Za-z ]+$/,
 };
 
 export const Lengths = {
@@ -27,3 +27,20 @@ export const Lengths = {
   fullNameMaxLength: 70,
   fullNameMinLength: 3,
 };
+
+export const ENUMS = {
+  accessToken: 'sred_access_token',
+  refreshToken: 'sred_refresh_token',
+  userData: 'sred_user_data',
+};
+
+export const API_URL = {
+  login: 'auth/login',
+  register: 'auth/register',
+  logout: 'auth/logout',
+  userProfile: 'auth/profile',
+  autoLogin: 'auth/auto-login',
+  githubConnect: 'auth/github/login',
+};
+
+export const API_BASE_URL = 'http://localhost:3000/api/v1';

@@ -20,9 +20,13 @@
     "baseUrl": "src",
     "paths": {
       "@Pages/*": ["app/Pages/*"],
+      "@Assets/*": ["assets/*"],
+      "@CustomTypes/*": ["app/customTypes/*"],
       "@Layouts/*": ["app/Layout/*"],
       "@Constants/*": ["app/shared/constants/*"],
       "@Services/*": ["app/shared/services/*"],
+      "@Guards/*": ["app/shared/guards/*"],
+      "@Interceptors/*": ["app/shared/interceptors/*"],
       "@Helpers/*": ["app/shared/helpers/*"],
       "@Components/*": ["app/Components/*"]
     }

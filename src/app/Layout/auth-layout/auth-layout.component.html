@@ -5,9 +5,16 @@
         <mat-card-title class="mx-auto text-center">{{title}}</mat-card-title>
 
         <ng-content></ng-content>
-        <mat-card-actions class="w-full !px-4">
-            <button mat-flat-button color="primary" class="w-full">
-                {{buttonText}}
+        <mat-card-actions class="w-full !px-6">
+            <button mat-flat-button class="w-full !bg-primary !text-light" [disabled]="loading">
+                <ng-container *ngIf="!loading; else loadingTpl">
+                    {{buttonText}}
+                </ng-container>
+                <ng-template #loadingTpl>
+                    <mat-progress-spinner mode="indeterminate" diameter="20" color="accent" class="mr-2"
+                        strokeWidth="3">
+                    </mat-progress-spinner>
+                </ng-template>
             </button>
         </mat-card-actions>
         <span>{{linkQuestion}} <a [routerLink]="linkUrl"

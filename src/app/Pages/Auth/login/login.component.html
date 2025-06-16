@@ -1,5 +1,5 @@
-<app-auth-layout title="Login - Sred.io" buttonText="Login" linkQuestion="Don't have account ?" linkText="Signup here"
-    linkUrl="/auth/signup" (onSubmit)="onSubmit()" [formGroup]="loginForm">
+<app-auth-layout title="Login - Sred.io" [loading]="loading" buttonText="Login" linkQuestion="Don't have account ?"
+    linkText="Signup here" linkUrl="/auth/signup" (onSubmit)="onSubmit()" [formGroup]="loginForm">
     <mat-card-content class="mt-8 px-3">
         <!-- Email -->
         <mat-form-field appearance="outline" class="full-width">

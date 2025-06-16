@@ -1,1 +1,45 @@
-<p>profile works!</p>
+<app-page-title text="Profile"></app-page-title>
+
+
+<div class="!w-full">
+    <mat-card>
+        <app-profile-row key="Full Name" [value]="userData?.fullName" />
+        <app-profile-row key="Email" [value]="userData?.email" />
+
+
+        <mat-accordion>
+            <mat-expansion-panel class="!shadow-none" [expanded]="true" (opened)="panelOpenState.set(true)"
+                (closed)="panelOpenState.set(false)">
+                <mat-expansion-panel-header>
+                    <mat-panel-title class="!flex !justify-start !items-center gap-2">
+                        <mat-icon svgIcon="github"></mat-icon>
+                        <span class="flex justify-start items-center gap-1">
+                            Github
+                            <mat-icon *ngIf="userData?.github" class="!text-green-500 !text-base"
+                                fontIcon="check_circle"></mat-icon>
+                        </span>
+                    </mat-panel-title>
+                    <!-- <mat-panel-description>
+                        Currently I am {{panelOpenState() ? 'open' : 'closed'}}
+                    </mat-panel-description> -->
+                </mat-expansion-panel-header>
+                <ng-container *ngIf="!userData?.github; else removeButton">
+                    <div class="w-full flex justify-center items-center flex-col !py-0 text-primary">
+                        <button (click)="onGithubConnect()" mat-flat-button class="!bg-primary !text-light">
+                            Connect
+                        </button>
+                        <h2 class="!font-semibold !mt-1">Connect Sredio to Github</h2>
+                    </div>
+                </ng-container>
+
+                <ng-template #removeButton>
+                    <div class="w-full flex justify-end items-center   text-primary py-2 pr-3">
+                        <button mat-flat-button class="!bg-primary !text-light">
+                            Remove
+                        </button>
+                    </div>
+                </ng-template>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </mat-card>
+</div>
