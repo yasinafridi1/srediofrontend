@@ -41,6 +41,8 @@ export const API_URL = {
   userProfile: 'auth/profile',
   autoLogin: 'auth/auto-login',
   githubConnect: 'auth/github/login',
+  githubCollections: 'github/collections',
+  githubCollectionDetail: 'github/collection',
 };
 
 export const API_BASE_URL = 'http://localhost:3000/api/v1';

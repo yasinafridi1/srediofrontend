@@ -10,6 +10,8 @@ import { API_URL, ENUMS } from '@Constants/index';
 import { NgIf } from '@angular/common';
 import { ApiService } from '@Services/api.service';
 import { AsyncHandlerService } from '@Services/async-handler.service';
+import { ToastserviceService } from '@Services/toastservice.service';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-profile',
@@ -22,6 +24,7 @@ import { AsyncHandlerService } from '@Services/async-handler.service';
     MatIcon,
     MatButton,
     NgIf,
+    MatProgressSpinnerModule,
   ],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css'],
@@ -29,6 +32,7 @@ import { AsyncHandlerService } from '@Services/async-handler.service';
 export class ProfileComponent {
   readonly panelOpenState = signal(true);
   userData: any = {};
+  loading: boolean = false;
 
   constructor(
     private localStorage: LocalStorageService,
@@ -59,6 +63,7 @@ export class ProfileComponent {
   }
 
   onGithubConnect() {
+    this.loading = true;
     this.asyncHandler.handleObservable(
       this.api.getData(API_URL.githubConnect),
       (data: any) => {

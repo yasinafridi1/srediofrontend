@@ -1,1 +1,52 @@
 <app-page-title text="Repos Info"></app-page-title>
+
+<div class="h-[250px] w-full flex justify-center flex-col items-center" *ngIf="!userData?.github">
+    <h3>Please connect github first. To connect github go to Profile and click on github</h3>
+</div>
+
+<div class="h-[250px] w-full flex justify-center flex-col items-center"
+    *ngIf="userData?.github?.dataSync ==='PENDING' || loading">
+    <mat-progress-spinner mode="indeterminate" diameter="40" color="blue" class="mb-4" strokeWidth="5">
+    </mat-progress-spinner>
+    <h3>Github data is Syncing. Please wait until syncing finish.</h3>
+</div>
+
+<div class="!py-5" *ngIf="userData.github && isDataFetched">
+
+
+    <div class="flex justify-start items-center gap-4 flex-wrap">
+        <mat-form-field appearance="fill" class="grow basis-[220px]">
+            <mat-label>Active Integration</mat-label>
+            <mat-select [formControl]="activeIntegration">
+                <mat-option *ngFor="let integration of integrations" [value]="integration">
+                    {{ integration }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="grow basis-[200px]">
+            <mat-label>Collection</mat-label>
+            <mat-select [formControl]="entityControl" (selectionChange)="onEntityChange($event)">
+                <mat-option *ngFor="let collection of collections" [value]="collection">
+                    {{ collection }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+
+        <mat-form-field appearance="fill" class="search-field grow basis-[200px]">
+            <mat-label>Search</mat-label>
+            <input matInput placeholder="Enter search term" (keyup)="onSearchChange($event)">
+            <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+    </div>
+    <div class="relative h-full" [class.opacity-60]="isLoading" [class.pointer-events-none]="isLoading">
+        <app-grid-loader *ngIf="isLoading"></app-grid-loader>
+        <ag-grid-angular style="width: 100% !important;" [domLayout]="domLayout" [pagination]="true"
+            (gridReady)="onGridReady($event)" [paginationPageSize]="paginationPageSize" [suppressCellFocus]="true"
+            [rowData]="rowData" [columnDefs]="colDefs" [quickFilterText]="searchText" [animateRows]="true"
+            [paginationPageSizeSelector]="paginationPageSizeSelector"
+            (paginationChanged)="onPaginationChanged($event)" />
+    </div>
+
+</div>

@@ -94,7 +94,7 @@ export class RegisterComponent {
           );
           setTimeout(() => {
             this.router.navigate(['/auth/signin']);
-          }, 1500);
+          }, 1000);
         },
         () => {
           this.loading = false;
