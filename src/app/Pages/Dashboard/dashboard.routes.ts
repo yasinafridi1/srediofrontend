@@ -9,7 +9,7 @@ export const routes: Routes = [
     path: '',
     component: DashboardLayoutComponent,
     children: [
-      { path: '', component: HomeComponent },
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: HomeComponent },
       { path: 'profile', component: ProfileComponent },
       { path: 'repos', component: ReposComponent },

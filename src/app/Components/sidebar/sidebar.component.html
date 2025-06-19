@@ -8,6 +8,12 @@
                 <mat-icon matListIcon>{{ item.icon }}</mat-icon>
                 <span matLine class="text-base font-semibold">{{ item.text }}</span>
             </a>
+
+            <button (click)="logoutUser()"
+                class="cursor-pointer flex justify-start items-center gap-4 my-5 px-5 w-full py-2 rounded-md transition-all ease-in-out duration-500 hover:bg-red-800">
+                <mat-icon matListIcon>logout</mat-icon>
+                <span matLine class="text-base font-semibold">Logout</span>
+            </button>
         </mat-nav-list>
     </mat-sidenav>
 </mat-sidenav-container>

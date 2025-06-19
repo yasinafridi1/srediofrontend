@@ -49,7 +49,6 @@ export class RegisterComponent {
     private toastService: ToastserviceService,
     private api: ApiService,
     private asyncHandler: AsyncHandlerService,
-    private localStorage: LocalStorageService,
     private router: Router
   ) {}
 
@@ -92,9 +91,7 @@ export class RegisterComponent {
           this.toastService.successMessage(
             response?.message || 'Registration successful!'
           );
-          setTimeout(() => {
-            this.router.navigate(['/auth/signin']);
-          }, 1000);
+          this.router.navigate(['/auth/signin']);
         },
         () => {
           this.loading = false;

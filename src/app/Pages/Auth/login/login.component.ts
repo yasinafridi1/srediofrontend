@@ -80,10 +80,7 @@ export class LoginComponent {
           );
           this.localstorage.setData(ENUMS.userData, data?.data?.userData);
           this.localstorage.setJwtTokens(data?.data);
-          setTimeout(() => {
-            this.router.navigate(['/']);
-          }, 1000);
-          // Handle successful login, e.g., store tokens, redirect, etc.
+          this.router.navigate(['/']);
         },
         () => {
           this.loading = false;

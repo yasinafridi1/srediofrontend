@@ -31,7 +31,6 @@ export const refreshTokenInterceptor: HttpInterceptorFn = (req, next) => {
   const localStorage = inject(LocalStorageService);
   const http = inject(HttpClient);
   const router = inject(Router);
-  console.log('retryiiingg ===>');
   // Skip refresh logic for refresh-token call itself to avoid recursion
   const isRefreshTokenCall = req.url.includes(API_URL.autoLogin);
 
