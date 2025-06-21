@@ -1,4 +1,4 @@
-import { NgForOf, NgIf } from '@angular/common';
+import { CommonModule, NgForOf, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -11,26 +11,15 @@ import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
-// Register the required modules
-import { AgGridAngular } from 'ag-grid-angular'; // Angular Data Grid Component
-import type {
-  ColDef,
-  GetDetailRowDataParams,
-  GridApi,
-  GridOptions,
-  GridReadyEvent,
-  SizeColumnsToFitGridStrategy,
-  ValueFormatterFunc,
-  ValueFormatterParams,
-  ValueGetterParams,
-} from 'ag-grid-community';
+import { AgGridAngular } from 'ag-grid-angular';
+import type { ColDef, GridApi } from 'ag-grid-community';
 
 import {
   AllCommunityModule,
   ModuleRegistry,
   ClientSideRowModelModule,
 } from 'ag-grid-community';
-import { GridLoaderComponent } from '../../Components/Loader/grid-loader/grid-loader.component';
+import { GridLoaderComponent } from '@Components/Loader/grid-loader/grid-loader.component';
 ModuleRegistry.registerModules([AllCommunityModule, ClientSideRowModelModule]);
 @Component({
   selector: 'app-repos',
@@ -38,15 +27,14 @@ ModuleRegistry.registerModules([AllCommunityModule, ClientSideRowModelModule]);
   imports: [
     PageTitleComponent,
     MatProgressSpinnerModule,
-    NgIf,
     ReactiveFormsModule,
     MatSelectModule,
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
-    NgForOf,
     AgGridAngular,
     GridLoaderComponent,
+    CommonModule,
   ],
   templateUrl: './repos.component.html',
   styleUrl: './repos.component.css',
@@ -54,7 +42,6 @@ ModuleRegistry.registerModules([AllCommunityModule, ClientSideRowModelModule]);
 export class ReposComponent {
   userData: any = null;
   loading: boolean = false;
-  public domLayout: 'normal' | 'autoHeight' | 'print' = 'autoHeight';
   activeIntegration = new FormControl('github');
   entityControl = new FormControl();
   integrations = ['github'];
@@ -64,14 +51,11 @@ export class ReposComponent {
   colDefs: ColDef[] = [];
   rowData = [];
   searchText = '';
-  public pagination = true;
-  public paginationPageSize = 20;
-  public paginationAutoPageSize = true;
   isDataFetched: boolean = false;
-  totalRecords: number = 0;
-  currentPage: number = 1;
-  paginationPageSizeSelector = [2, 10, 20, 25];
-  private gridApi!: GridApi;
+  currentPage = 1;
+  pageSize = 10;
+  totalPages = 10;
+  totalRecords = 150;
 
   constructor(
     private localStorage: LocalStorageService,
@@ -125,27 +109,19 @@ export class ReposComponent {
     this.searchText = (event.target as HTMLInputElement).value;
   }
 
-  onPaginationChanged(event: any) {
-    const { newPage, newPageSize } = event;
-    if (newPageSize) {
-      this.paginationPageSize = this.gridApi.paginationGetPageSize();
-    }
-    if (newPage) {
-      this.currentPage = this.gridApi.paginationGetCurrentPage() + 1;
-    }
-  }
-
   loadEntityDetail() {
     this.isLoading = true;
     this.asyncHandler.handleObservable(
       this.api.getData(
-        `${API_URL.githubCollectionDetail}/${this.selectedEntities}?page=${this.currentPage}&limit=${this.paginationPageSize}`
+        `${API_URL.githubCollectionDetail}/${this.selectedEntities}?page=${this.currentPage}&limit=${this.pageSize}`
       ),
       (res: any) => {
         if (res?.data?.data?.length) {
-          this.gridApi.setRowCount(100, false);
-          this.generateAgGrid(res.data.data);
-          console.log(res.data);
+          const { data, totalItems, totalPages: pagesCount } = res.data;
+          this.generateAgGrid(data);
+          console.log('Response ==>', data);
+          this.totalPages = pagesCount;
+          this.totalRecords = totalItems;
         } else {
           this.isLoading = false;
         }
@@ -153,8 +129,28 @@ export class ReposComponent {
     );
   }
 
-  onGridReady(params: GridReadyEvent) {
-    this.gridApi = params.api;
-    console.log('Grid API:', this.gridApi);
+  getVisiblePages(): number[] {
+    const visiblePages = [];
+    const range = 1; // How many pages to show around current
+    for (
+      let i = Math.max(1, this.currentPage - range);
+      i <= Math.min(this.totalPages - 1, this.currentPage + range);
+      i++
+    ) {
+      visiblePages.push(i);
+    }
+
+    return visiblePages;
+  }
+
+  onPageSizeChange(event: any) {
+    this.pageSize = event.target.value;
+    this.loadEntityDetail();
+  }
+  goToPage(page: number) {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.loadEntityDetail();
+    }
   }
 }
