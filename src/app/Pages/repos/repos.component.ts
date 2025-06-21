@@ -12,14 +12,16 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { AgGridAngular } from 'ag-grid-angular';
-import type { ColDef, GridApi } from 'ag-grid-community';
-
+import type { ColDef } from 'ag-grid-community';
+import { GridLoaderComponent } from '@Components/Loader/grid-loader/grid-loader.component';
+import { ObjectRendererComponent } from '@Components/object-renderer/object-renderer.component';
 import {
   AllCommunityModule,
   ModuleRegistry,
   ClientSideRowModelModule,
+  themeBalham,
 } from 'ag-grid-community';
-import { GridLoaderComponent } from '@Components/Loader/grid-loader/grid-loader.component';
+
 ModuleRegistry.registerModules([AllCommunityModule, ClientSideRowModelModule]);
 @Component({
   selector: 'app-repos',
@@ -35,6 +37,7 @@ ModuleRegistry.registerModules([AllCommunityModule, ClientSideRowModelModule]);
     AgGridAngular,
     GridLoaderComponent,
     CommonModule,
+    ObjectRendererComponent,
   ],
   templateUrl: './repos.component.html',
   styleUrl: './repos.component.css',
@@ -54,8 +57,9 @@ export class ReposComponent {
   isDataFetched: boolean = false;
   currentPage = 1;
   pageSize = 10;
-  totalPages = 10;
-  totalRecords = 150;
+  totalPages = 0;
+  totalRecords = 0;
+  theme = themeBalham;
 
   constructor(
     private localStorage: LocalStorageService,
@@ -94,12 +98,24 @@ export class ReposComponent {
   }
 
   generateAgGrid(data: any) {
-    this.colDefs = Object.keys(data[0]).map((key) => ({
-      field: key,
-      filter: true,
-      sortable: true,
-    }));
-
+    const firstRow = data[0];
+    this.colDefs = Object.keys(data[0]).map((key) => {
+      if (typeof firstRow[key] === 'object') {
+        return {
+          colId: key,
+          field: key,
+          cellRenderer: ObjectRendererComponent,
+          filter: true,
+          autoHeight: true,
+        };
+      } else {
+        return {
+          field: key,
+          filter: true,
+          sortable: true,
+        };
+      }
+    });
     this.rowData = data;
     this.isLoading = false;
   }
@@ -119,7 +135,6 @@ export class ReposComponent {
         if (res?.data?.data?.length) {
           const { data, totalItems, totalPages: pagesCount } = res.data;
           this.generateAgGrid(data);
-          console.log('Response ==>', data);
           this.totalPages = pagesCount;
           this.totalRecords = totalItems;
         } else {

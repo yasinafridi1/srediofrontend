@@ -11,6 +11,7 @@
     <h3>Github data is Syncing. Please wait until syncing finish.</h3>
 </div>
 
+
 <div class="!py-5" *ngIf="userData.github && isDataFetched">
 
 
@@ -42,9 +43,9 @@
     </div>
     <div class="relative h-full" [class.opacity-60]="isLoading" [class.pointer-events-none]="isLoading">
         <app-grid-loader *ngIf="isLoading"></app-grid-loader>
-        <ag-grid-angular style="width: 100% !important;" domLayout="autoHeight" paginationAutoPageSize="true"
-            [suppressCellFocus]="true" [rowData]="rowData" [columnDefs]="colDefs" [quickFilterText]="searchText"
-            [animateRows]="true" />
+        <ag-grid-angular style="width: 100% !important;" [theme]="theme" domLayout="autoHeight"
+            paginationAutoPageSize="true" [suppressCellFocus]="true" [rowData]="rowData" [columnDefs]="colDefs"
+            [quickFilterText]="searchText" [animateRows]="true" />
         <div *ngIf="totalPages > 0" class="w-full flex !items-center justify-between  bg-white !px-3 !py-2">
             <!-- Page size dropdown -->
             <div class="flex items-center space-x-2">
