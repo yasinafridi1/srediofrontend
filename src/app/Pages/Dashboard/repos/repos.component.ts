@@ -21,6 +21,7 @@ import {
   ClientSideRowModelModule,
   themeBalham,
 } from 'ag-grid-community';
+import { LinkCellComponent } from '@Components/link-cell/link-cell.component';
 
 ModuleRegistry.registerModules([AllCommunityModule, ClientSideRowModelModule]);
 @Component({
@@ -37,7 +38,6 @@ ModuleRegistry.registerModules([AllCommunityModule, ClientSideRowModelModule]);
     AgGridAngular,
     GridLoaderComponent,
     CommonModule,
-    ObjectRendererComponent,
   ],
   templateUrl: './repos.component.html',
   styleUrl: './repos.component.css',
@@ -100,12 +100,21 @@ export class ReposComponent {
   generateAgGrid(data: any) {
     const firstRow = data[0];
     this.colDefs = Object.keys(data[0]).map((key) => {
-      if (typeof firstRow[key] === 'object') {
+      if (
+        (this.selectedEntities === 'githubrepositories' && key === '_id') ||
+        key === 'repo'
+      ) {
+        return {
+          colId: key,
+          field: key,
+          cellRenderer: LinkCellComponent,
+          filter: true,
+        };
+      } else if (typeof firstRow[key] === 'object') {
         return {
           colId: key,
           field: key,
           cellRenderer: ObjectRendererComponent,
-          filter: true,
           autoHeight: true,
         };
       } else {
@@ -138,6 +147,10 @@ export class ReposComponent {
           this.totalPages = pagesCount;
           this.totalRecords = totalItems;
         } else {
+          this.rowData = []; // Clear old data
+          this.colDefs = []; // Clear old columns
+          this.totalPages = 0;
+          this.totalRecords = 0;
           this.isLoading = false;
         }
       }

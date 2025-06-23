@@ -43,6 +43,10 @@ export const API_URL = {
   githubConnect: 'auth/github/login',
   githubCollections: 'github/collections',
   githubCollectionDetail: 'github/collection',
+  repodetail: 'github/repo/detail',
+  repoPullsData: 'github/repo/pulls',
+  repoCommitData: 'github/repo/commits',
+  repoIssuesData: 'github/repo/issues',
 };
 
 export const API_BASE_URL = 'http://localhost:3000/api/v1';

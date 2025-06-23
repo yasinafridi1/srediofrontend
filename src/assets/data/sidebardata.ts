@@ -7,7 +7,7 @@ export const sidebar: SideBar[] = [
     link: '/dashboard',
   },
   {
-    text: 'Repos',
+    text: 'Github',
     icon: 'folder', // You can also use 'storage' or 'source'
     link: '/repos',
   },

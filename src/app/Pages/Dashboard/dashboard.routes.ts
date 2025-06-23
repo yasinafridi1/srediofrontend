@@ -2,7 +2,8 @@ import { DashboardLayoutComponent } from '@Layouts/dashboard-layout/dashboard-la
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
-import { ReposComponent } from '@Pages/repos/repos.component';
+import { ReposComponent } from '@Pages/Dashboard/repos/repos.component';
+import { RepoDetailComponent } from './repo-detail/repo-detail.component';
 
 export const routes: Routes = [
   {
@@ -13,6 +14,7 @@ export const routes: Routes = [
       { path: 'dashboard', component: HomeComponent },
       { path: 'profile', component: ProfileComponent },
       { path: 'repos', component: ReposComponent },
+      { path: 'repo/detail/:repoId', component: RepoDetailComponent },
     ],
   },
 ];
