@@ -12,6 +12,8 @@ import { ApiService } from '@Services/api.service';
 import { AsyncHandlerService } from '@Services/async-handler.service';
 import { ToastserviceService } from '@Services/toastservice.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmRemoveGithubModalComponent } from '@Components/confirm-remove-github-modal/confirm-remove-github-modal.component';
 
 @Component({
   selector: 'app-profile',
@@ -37,7 +39,9 @@ export class ProfileComponent {
   constructor(
     private localStorage: LocalStorageService,
     private api: ApiService,
-    private asyncHandler: AsyncHandlerService
+    private asyncHandler: AsyncHandlerService,
+    private dialog: MatDialog,
+    private toast: ToastserviceService
   ) {}
 
   ngOnInit() {
@@ -70,5 +74,35 @@ export class ProfileComponent {
         window.location.href = data?.data.redirectUrl;
       }
     );
+  }
+
+  onRemoveClick() {
+    const dialogRef = this.dialog.open(ConfirmRemoveGithubModalComponent, {
+      width: '400px',
+      disableClose: true,
+    });
+
+    const componentInstance = dialogRef.componentInstance;
+
+    componentInstance.onConfirm.subscribe(() => {
+      componentInstance.loading = true;
+
+      this.asyncHandler.handleObservable(
+        this.api.deleteData(`${API_URL.githubRemove}`),
+        (res: any) => {
+          this.toast.successMessage(
+            res?.message || 'Github data deleted successfully'
+          );
+          const userData = this.localStorage.getData(ENUMS.userData);
+          userData.github = null;
+          this.localStorage.setData(ENUMS.userData, userData);
+          dialogRef.close();
+        }
+      );
+    });
+
+    componentInstance.onClose.subscribe(() => {
+      dialogRef.close();
+    });
   }
 }

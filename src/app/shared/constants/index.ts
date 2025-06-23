@@ -41,6 +41,7 @@ export const API_URL = {
   userProfile: 'auth/profile',
   autoLogin: 'auth/auto-login',
   githubConnect: 'auth/github/login',
+  githubRemove: 'auth/github/remove-github-data',
   githubCollections: 'github/collections',
   githubCollectionDetail: 'github/collection',
   repodetail: 'github/repo/detail',

@@ -42,7 +42,7 @@
                 <ng-template #removeButton>
                     <div class="w-full flex justify-end items-end flex-col   text-primary py-2 pr-3">
 
-                        <button mat-flat-button class="!bg-primary !text-light">
+                        <button (click)="onRemoveClick()" mat-flat-button class="!bg-primary !text-light">
                             Remove
                         </button>
                         <h5 class="!mt-2 !font-semibold">Username : {{userData?.github?.githubUsername}}</h5>
