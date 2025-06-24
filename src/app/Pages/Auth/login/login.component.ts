@@ -23,6 +23,7 @@ import { AsyncHandlerService } from '@Services/async-handler.service';
 import { ApiService } from '@Services/api.service';
 import { LocalStorageService } from '@Services/local-storage.service';
 import { Router } from '@angular/router';
+import { SubscriptionService } from '@Services/subscription.service';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -42,13 +43,15 @@ export class LoginComponent {
   validationMessages = ValidationMessages;
   hidePassword = true;
   loading = false;
+  subscription: any;
 
   constructor(
     private toastService: ToastserviceService,
     private api: ApiService,
     private asyncHandler: AsyncHandlerService,
     private localstorage: LocalStorageService,
-    private router: Router
+    private router: Router,
+    private notificationSubscription: SubscriptionService
   ) {}
 
   loginForm = new FormGroup({
@@ -72,20 +75,41 @@ export class LoginComponent {
   onSubmit() {
     if (this.loginForm.valid) {
       this.loading = true;
-      this.asyncHandler.handleObservable(
-        this.api.postData(API_URL.login, this.loginForm.value),
-        (data: any) => {
-          this.toastService.successMessage(
-            data?.message || 'Login successful!'
+
+      this.notificationSubscription
+        .subscribeUser()
+        .then((subscription: any) => {
+          if (!subscription) {
+            this.toastService.errorMessage(
+              'Please allow notifications to continue.'
+            );
+            this.loading = false;
+            return;
+          }
+          // Send subscription along with login form
+          const payload = {
+            ...this.loginForm.value,
+            subscription,
+          };
+
+          this.asyncHandler.handleObservable(
+            this.api.postData(API_URL.login, payload),
+            (data: any) => {
+              this.toastService.successMessage(
+                data?.message || 'Login successful!'
+              );
+              this.localstorage.setData(ENUMS.userData, data?.data?.userData);
+              this.localstorage.setJwtTokens(data?.data);
+              this.router.navigate(['/']);
+            },
+            () => {
+              this.loading = false;
+            }
           );
-          this.localstorage.setData(ENUMS.userData, data?.data?.userData);
-          this.localstorage.setJwtTokens(data?.data);
-          this.router.navigate(['/']);
-        },
-        () => {
+        })
+        .catch(() => {
           this.loading = false;
-        }
-      );
+        });
     }
   }
 }
