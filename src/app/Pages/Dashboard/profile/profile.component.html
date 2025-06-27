@@ -25,7 +25,7 @@
                 </mat-expansion-panel-header>
                 <ng-container *ngIf="!userData?.github; else removeButton">
                     <div class="w-full flex justify-center items-center flex-col !py-0 text-primary">
-                        <button (click)="onGithubConnect()" mat-flat-button class="!bg-primary !text-light"
+                        <button (click)="onAirTableConnect()" mat-flat-button class="!bg-primary !text-light"
                             [disabled]="loading">
                             <ng-container *ngIf="!loading; else loadingTpl">
                                 Connect
@@ -36,7 +36,7 @@
                             </ng-template>
                         </button>
                         <h2 class="!font-semibold !mt-1 !text-xs  md:!text-base lg:!text-lg">Connect Sredio to
-                            Github
+                            AirTable
                         </h2>
                     </div>
                 </ng-container>
@@ -47,7 +47,6 @@
                         <button (click)="onRemoveClick()" mat-flat-button class="!bg-primary !text-light">
                             Remove
                         </button>
-                        <h5 class="!mt-2 !font-semibold">Username : {{userData?.github?.githubUsername}}</h5>
                     </div>
                 </ng-template>
             </mat-expansion-panel>

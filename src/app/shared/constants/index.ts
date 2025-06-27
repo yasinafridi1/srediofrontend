@@ -48,6 +48,7 @@ export const API_URL = {
   repoPullsData: 'github/repo/pulls',
   repoCommitData: 'github/repo/commits',
   repoIssuesData: 'github/repo/issues',
+  airtableConnect: 'airtable/',
 };
 
 export const API_BASE_URL = 'http://localhost:3000/api/v1';

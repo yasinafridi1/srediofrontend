@@ -66,11 +66,12 @@ export class ProfileComponent {
     return null;
   }
 
-  onGithubConnect() {
+  onAirTableConnect() {
     this.loading = true;
     this.asyncHandler.handleObservable(
-      this.api.getData(API_URL.githubConnect),
+      this.api.postData(API_URL.airtableConnect, {}),
       (data: any) => {
+        // console.log(data.data.redirectUrl);
         window.location.href = data?.data.redirectUrl;
       }
     );
