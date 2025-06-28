@@ -14,6 +14,7 @@ import { ToastserviceService } from '@Services/toastservice.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmRemoveGithubModalComponent } from '@Components/confirm-remove-github-modal/confirm-remove-github-modal.component';
+import { updateUserKeys } from '@Helpers/AirTableKeys';
 
 @Component({
   selector: 'app-profile',
@@ -71,8 +72,10 @@ export class ProfileComponent {
     this.asyncHandler.handleObservable(
       this.api.postData(API_URL.airtableConnect, {}),
       (data: any) => {
-        // console.log(data.data.redirectUrl);
         window.location.href = data?.data.redirectUrl;
+      },
+      () => {
+        this.loading = false;
       }
     );
   }
@@ -89,14 +92,13 @@ export class ProfileComponent {
       componentInstance.loading = true;
 
       this.asyncHandler.handleObservable(
-        this.api.deleteData(`${API_URL.githubRemove}`),
+        this.api.deleteData(`${API_URL.airtableConnect}`),
         (res: any) => {
           this.toast.successMessage(
-            res?.message || 'Github data deleted successfully'
+            res?.message || 'AirTable data deleted successfully'
           );
-          const userData = this.localStorage.getData(ENUMS.userData);
-          userData.github = null;
-          this.localStorage.setData(ENUMS.userData, userData);
+          updateUserKeys('dataSync', 'PENDING');
+          updateUserKeys('dataScrap', 'NOT_STARTED');
           dialogRef.close();
         }
       );

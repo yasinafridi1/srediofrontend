@@ -1,7 +1,7 @@
 import { AirTableLoginComponent } from '@Components/air-table-login/air-table-login.component';
 import { AirTableMfaComponent } from '@Components/air-table-mfa/air-table-mfa.component';
 import { PageTitleComponent } from '@Components/page-title/page-title.component';
-import { API_URL } from '@Constants/index';
+import { API_URL, ENUMS } from '@Constants/index';
 import { ApiService } from '@Services/api.service';
 import { AsyncHandlerService } from '@Services/async-handler.service';
 import { LocalStorageService } from '@Services/local-storage.service';
@@ -11,6 +11,8 @@ import { Component } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { GridComponent } from '@Components/grid/grid.component';
+import { updateUserKeys } from '@Helpers/AirTableKeys';
 
 @Component({
   selector: 'app-airtable',
@@ -21,17 +23,15 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatProgressSpinnerModule,
     MatButton,
     NgClass,
+    GridComponent,
   ],
   templateUrl: './airtable.component.html',
   styleUrl: './airtable.component.css',
 })
 export class AirtableComponent {
-  userData: any = {
-    airtable: 'hello',
-  };
+  userData: any = {};
   loading: boolean = false;
   isDataFetched: boolean = true;
-  scrappingLoading: boolean = false;
 
   constructor(
     private dialog: MatDialog,
@@ -42,10 +42,7 @@ export class AirtableComponent {
   ) {}
 
   ngOnInit() {
-    const scrapping = this.localStorage.getData('scrapping');
-
-    // Convert safely to a boolean
-    this.scrappingLoading = scrapping === true;
+    this.userData = this.localStorage.getData(ENUMS.userData);
   }
 
   openAirtableLogin() {
@@ -65,9 +62,8 @@ export class AirtableComponent {
             if (mfa && mfa?.required) {
               this.openMfaModal(sessionId);
             } else {
-              this.localStorage.setData('scrapping', true);
-              this.scrappingLoading = true;
               this.toast.successMessage(res.message || 'Scrapping started');
+              updateUserKeys('dataScrap', 'PENDING');
             }
           }
         );
@@ -95,9 +91,9 @@ export class AirtableComponent {
             if (!data.isValid) {
               this.toast.errorMessage('Invalid Code');
               this.openMfaModal(data.sessionId);
+              updateUserKeys('dataScrap', 'PENDING');
             } else {
               this.localStorage.setData('scrapping', true);
-              this.scrappingLoading = true;
               this.toast.successMessage(
                 res?.message || 'Scrapping started successfully'
               );

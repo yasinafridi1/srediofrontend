@@ -9,10 +9,10 @@ import { NgIf } from '@angular/common';
   selector: 'app-confirm-remove-github-modal',
   imports: [MatButtonModule, MatDialogModule, MatProgressSpinnerModule, NgIf],
   template: `
-    <h2 mat-dialog-title>Remove GitHub Token</h2>
+    <h2 mat-dialog-title>Remove AirTable Data</h2>
     <mat-dialog-content>
       <p>
-        Do you want to remove your GitHub token? This will delete all your
+        Do you want to remove your AirTable data? This will delete all your
         synced data with the application.
       </p>
     </mat-dialog-content>

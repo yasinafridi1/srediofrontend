@@ -12,18 +12,19 @@
                 (closed)="panelOpenState.set(false)">
                 <mat-expansion-panel-header>
                     <mat-panel-title class="!flex !justify-start !items-center gap-2">
-                        <mat-icon svgIcon="github"></mat-icon>
+                        <mat-icon svgIcon="airtable"></mat-icon>
                         <span class="flex justify-start items-center gap-1">
-                            Github
-                            <mat-icon *ngIf="userData?.github" class="!text-green-500 !text-base"
-                                fontIcon="check_circle"></mat-icon>
+                            Air Table
+                            <mat-icon *ngIf="userData?.airTable?.dataSync==='COMPLETED'"
+                                class="!text-green-500 !text-base" fontIcon="check_circle"></mat-icon>
                         </span>
                     </mat-panel-title>
-                    <mat-panel-description *ngIf="userData?.github" class="!text-xs">
-                        Connected at : {{userData?.github?.connectedAt}}
+                    <mat-panel-description *ngIf="userData?.airTable && userData?.airTable?.createdAt" class="!text-xs">
+                        Connected on : {{userData?.airTable?.createdAt}}
                     </mat-panel-description>
                 </mat-expansion-panel-header>
-                <ng-container *ngIf="!userData?.github; else removeButton">
+                <ng-container
+                    *ngIf="userData?.airTable?.dataSync==='PENDING' || !userData?.airTable; else removeButton">
                     <div class="w-full flex justify-center items-center flex-col !py-0 text-primary">
                         <button (click)="onAirTableConnect()" mat-flat-button class="!bg-primary !text-light"
                             [disabled]="loading">

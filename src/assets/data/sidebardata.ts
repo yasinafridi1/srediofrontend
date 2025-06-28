@@ -8,7 +8,7 @@ export const sidebar: SideBar[] = [
   },
   {
     text: 'AirTable',
-    icon: 'folder', // You can also use 'storage' or 'source'
+    icon: 'airtable',
     link: '/airtable',
   },
   {

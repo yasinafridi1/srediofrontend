@@ -32,12 +32,12 @@ export class AirTableLoginComponent {
   hidePassword = true;
 
   loginForm = new FormGroup({
-    email: new FormControl('yaseenafridi10875@gmail.com', [
+    email: new FormControl('gelovo6460@asimarif.com', [
       Validators.required,
       Validators.pattern(Patterns.emailPattern),
       Validators.maxLength(Lengths.emailMaxLength),
     ]),
-    password: new FormControl('', [Validators.required]),
+    password: new FormControl('Khan@12345', [Validators.required]),
   });
 
   constructor(

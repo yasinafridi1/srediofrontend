@@ -1,22 +1,35 @@
 <app-page-title text="AirTable Info"></app-page-title>
-<div class="h-[250px] w-full flex justify-center flex-col items-center" *ngIf="!userData?.airtable">
+<div class="h-[250px] w-full flex justify-center flex-col items-center" *ngIf="!userData?.airTable; else checkStatus">
     <h3>Please connect Airtable first. To connect Airtable go to Profile and click on Connect</h3>
 </div>
 
-<div class="h-[250px] w-full flex justify-center flex-col items-center"
-    *ngIf="userData?.github?.dataSync ==='PENDING' || loading">
-    <mat-progress-spinner mode="indeterminate" diameter="40" color="blue" class="mb-4" strokeWidth="5">
-    </mat-progress-spinner>
-    <h3>Airtable data is Syncing. Please wait until syncing finish.</h3>
-</div>
-
-<div class="!py-5" *ngIf="userData.airtable && isDataFetched">
-    <div class="w-full flex justify-end items-center !py-0 text-primary">
-        <button (click)="openAirtableLogin()" mat-flat-button [ngClass]="{
-      '!bg-primary !text-light': !scrappingLoading,
-      'bg-gray-400 text-white pointer-events-none !cursor-not-allowed': scrappingLoading
-    }" [disabled]="scrappingLoading">
-            Login AirTable
-        </button>
+<ng-template #checkStatus>
+    <div class="h-[250px] w-full flex justify-center flex-col items-center"
+        *ngIf="userData?.airTable?.dataSync ==='PENDING' || loading">
+        <mat-progress-spinner mode="indeterminate" diameter="40" color="blue" class="mb-4" strokeWidth="5">
+        </mat-progress-spinner>
+        <h3 class="max-w-[500px] w-[93%] sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-1/2 text-center">Airtable data is
+            Syncing.
+            Please wait
+            until syncing
+            finish.
+            We will send notification once syncing complete.
+        </h3>
     </div>
-</div>
+
+    <div class="!py-5" *ngIf="userData?.airTable?.dataSync === 'COMPLETED'">
+        <div class="w-full flex justify-end items-center !py-0 text-primary">
+            <button (click)="openAirtableLogin()" mat-flat-button [ngClass]="{
+          '!bg-primary !text-light': userData?.airTable?.dataScrap !==  'PENDING',
+          'bg-gray-400 text-white pointer-events-none !cursor-not-allowed': userData?.airTable?.dataScrap === 'PENDING'
+        }" [disabled]="userData?.airTable?.dataScrap === 'PENDING'">
+                {{ userData?.airTable?.dataScrap === 'PENDING' ? 'Syncing...' : 'Login AirTable' }}
+            </button>
+        </div>
+
+
+        <div class="w-full mt-8">
+            <app-grid />
+        </div>
+    </div>
+</ng-template>
