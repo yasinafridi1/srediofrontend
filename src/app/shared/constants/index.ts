@@ -49,6 +49,8 @@ export const API_URL = {
   repoCommitData: 'github/repo/commits',
   repoIssuesData: 'github/repo/issues',
   airtableConnect: 'airtable/',
+  airtableLogin: 'airtable/login',
+  airtableMfa: 'airtable/mfa',
 };
 
 export const API_BASE_URL = 'http://localhost:3000/api/v1';

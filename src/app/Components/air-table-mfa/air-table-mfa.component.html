@@ -1,0 +1,19 @@
+<h2 mat-dialog-title class="text-lg font-semibold !mt-5 !mx-auto">Enter MFA Code</h2>
+
+<form [formGroup]="mfaForm" (ngSubmit)="submit()" class="p-4 space-y-4">
+    <mat-form-field appearance="outline" class="w-full">
+        <mat-label>MFA Code</mat-label>
+        <input matInput formControlName="code" maxlength="6" type="text" autocomplete="one-time-code"
+            inputmode="numeric" />
+        <mat-error *ngIf="mfaForm.get('code')?.invalid && mfaForm.get('code')?.touched">
+            Code must be 6 digits
+        </mat-error>
+    </mat-form-field>
+
+    <div class="flex justify-end gap-4">
+        <button mat-button type="button" (click)="cancel()">Cancel</button>
+        <button mat-flat-button color="primary" type="submit" [disabled]="mfaForm.invalid">
+            Submit
+        </button>
+    </div>
+</form>

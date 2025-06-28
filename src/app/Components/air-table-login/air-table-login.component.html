@@ -1,0 +1,38 @@
+<h2 mat-dialog-title class="text-lg font-semibold !mt-5 !mx-auto">Airtable Login</h2>
+<form [formGroup]="loginForm" (ngSubmit)="submit()" class="p-4 space-y-4">
+    <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" />
+        <mat-error *ngIf="f.email.touched && f.email.errors?.['required']">
+            Email is required
+        </mat-error>
+        <mat-error *ngIf="f.email.touched && f.email.errors?.['maxlength'] && !f.email.errors?.['pattern']">
+            {{validationMessages.emailMaxLengthError}}
+        </mat-error>
+        <mat-error *ngIf="f.email.touched && f.email.errors?.['pattern']">
+            {{validationMessages.email}}
+        </mat-error>
+    </mat-form-field>
+
+
+
+    <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Password</mat-label>
+        <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" />
+        <button type="button" mat-icon-button matSuffix (click)="hidePassword = !hidePassword"
+            [attr.aria-label]="'Toggle password visibility'" [attr.aria-pressed]="!hidePassword">
+            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+
+        <mat-error *ngIf="f.password.touched && f.password.errors?.['required']">
+            Password is required
+        </mat-error>
+    </mat-form-field>
+
+    <div class="flex justify-end gap-4">
+        <button mat-button type="button" (click)="dialogRef.close()">Cancel</button>
+        <button mat-flat-button color="primary" type="submit">
+            Login
+        </button>
+    </div>
+</form>
