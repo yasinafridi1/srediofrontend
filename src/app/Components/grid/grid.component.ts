@@ -15,6 +15,7 @@ import {
   ClientSideRowModelModule,
   themeBalham,
 } from 'ag-grid-community';
+import { LinkCellComponent } from '@Components/link-cell/link-cell.component';
 
 ModuleRegistry.registerModules([AllCommunityModule, ClientSideRowModelModule]);
 
@@ -79,11 +80,20 @@ export class GridComponent {
 
   generateAgGrid(data: any) {
     this.colDefs = Object.keys(data[0]).map((key) => {
-      return {
-        field: key,
-        filter: true,
-        sortable: true,
-      };
+      if (this.selectedCollection === 'airtablestickets' && key === 'id') {
+        return {
+          colId: key,
+          field: key,
+          cellRenderer: LinkCellComponent,
+          filter: true,
+        };
+      } else {
+        return {
+          field: key,
+          filter: true,
+          sortable: true,
+        };
+      }
     });
     this.rowData = data;
     this.gridLoader = false;

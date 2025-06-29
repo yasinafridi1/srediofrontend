@@ -5,6 +5,7 @@ import { ProfileComponent } from '@Pages/Dashboard/profile/profile.component';
 import { ReposComponent } from '@Pages/Dashboard/repos/repos.component';
 import { RepoDetailComponent } from '@Pages/Dashboard/repo-detail/repo-detail.component';
 import { AirtableComponent } from '@Pages/Dashboard/airtable/airtable.component';
+import { RevisionHistoryComponent } from './revision-history/revision-history.component';
 
 export const routes: Routes = [
   {
@@ -17,6 +18,10 @@ export const routes: Routes = [
       { path: 'repos', component: ReposComponent },
       { path: 'airtable', component: AirtableComponent },
       { path: 'repo/detail/:repoId', component: RepoDetailComponent },
+      {
+        path: 'revisionHistory/:recordId',
+        component: RevisionHistoryComponent,
+      },
     ],
   },
 ];

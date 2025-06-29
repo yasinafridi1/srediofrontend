@@ -13,7 +13,7 @@ export class LinkCellComponent implements ICellRendererAngularComp {
   url!: string;
   displayText!: string;
   agInit(params: ICellRendererParams<any, any, any>): void {
-    this.url = `/repo/detail/${params.value}`;
+    this.url = `/revisionHistory/${params.value}`;
     this.displayText = params.value;
   }
 

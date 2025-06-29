@@ -53,6 +53,7 @@ export const API_URL = {
   airtableMfa: 'airtable/mfa',
   airtableCollections: 'airtable/collections',
   airTableCollectionData: 'airtable/collection',
+  recordRevisionHistory: 'airtable/revision/history',
 };
 
 export const API_BASE_URL = 'http://localhost:3000/api/v1';
