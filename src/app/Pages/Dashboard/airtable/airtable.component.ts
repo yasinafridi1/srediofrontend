@@ -85,8 +85,9 @@ export class AirtableComponent {
               updateUserKeys('dataScrap', 'PENDING');
             } else {
               this.localStorage.setData('scrapping', true);
-              this.toast.successMessage(
-                res?.message || 'Scrapping started successfully'
+              this.toast.infoMessage(
+                'Scapping started...',
+                res.message || 'Scrapping started'
               );
             }
           }

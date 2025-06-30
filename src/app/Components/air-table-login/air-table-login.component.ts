@@ -72,7 +72,10 @@ export class AirTableLoginComponent {
           if (mfa && mfa?.required) {
             this.dialogRef.close({ mfa: true, sessionId });
           } else {
-            this.toast.successMessage(res.message || 'Scrapping started');
+            this.toast.infoMessage(
+              'Scapping started...',
+              res.message || 'Scrapping started'
+            );
             this.toast.successMessage('Air Table logged in successfully');
             updateUserKeys('dataScrap', 'PENDING');
             this.dialogRef.close({ mfa: false, sessionId });

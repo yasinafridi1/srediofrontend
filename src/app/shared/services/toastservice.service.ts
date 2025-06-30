@@ -18,4 +18,10 @@ export class ToastserviceService {
       closeButton: true,
     });
   }
+  infoMessage(title: string, message: string) {
+    this.toastr.info(message, title, {
+      closeButton: true,
+      timeOut: 20000,
+    });
+  }
 }
