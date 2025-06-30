@@ -55,18 +55,9 @@ export class AirtableComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.asyncHandler.handleObservable(
-          this.api.postData(API_URL.airtableLogin, result),
-          (res: any) => {
-            const { mfa, sessionId } = res?.data;
-            if (mfa && mfa?.required) {
-              this.openMfaModal(sessionId);
-            } else {
-              this.toast.successMessage(res.message || 'Scrapping started');
-              updateUserKeys('dataScrap', 'PENDING');
-            }
-          }
-        );
+        if (result.mfa) {
+          this.openMfaModal(result.sessionId);
+        }
       }
     });
   }

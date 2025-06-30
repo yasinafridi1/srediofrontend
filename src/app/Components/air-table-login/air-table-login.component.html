@@ -30,9 +30,22 @@
     </mat-form-field>
 
     <div class="flex justify-end gap-4">
-        <button mat-button type="button" (click)="dialogRef.close()">Cancel</button>
-        <button mat-flat-button color="primary" type="submit">
-            Login
-        </button>
+        <!-- Show loader if loading is true -->
+        <ng-container *ngIf="loading; else actionButtons">
+            <button mat-flat-button color="primary" disabled>
+                <mat-progress-spinner diameter="20" mode="indeterminate" color="accent" class="mr-2"
+                    style="display:inline-block; vertical-align:middle;">
+                </mat-progress-spinner>
+                Loading...
+            </button>
+        </ng-container>
+
+        <!-- Buttons to show if not loading -->
+        <ng-template #actionButtons>
+            <button mat-button type="button" (click)="dialogRef.close()">Cancel</button>
+            <button mat-flat-button color="primary" type="submit">
+                Login
+            </button>
+        </ng-template>
     </div>
 </form>
